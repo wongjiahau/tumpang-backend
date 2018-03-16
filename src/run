@@ -1,2 +1,3 @@
 #!/bin/bash
+kill -9 $(pidof nodejs app.js)
 nodejs app.js &
