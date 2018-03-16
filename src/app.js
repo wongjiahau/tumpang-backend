@@ -46,6 +46,15 @@ app.get('/', (req, res) => {
     //connection.end();
 });
 
+app.get('/callGoogle', function(req, res){
+  request('http://www.google.com', function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      // from within the callback, write data to response, essentially returning it.
+      res.send(body);
+    }
+  })
+});
+
 app.get('/hello', (req, res) => {
     res
         .status(200)
