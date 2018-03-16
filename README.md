@@ -5,7 +5,12 @@ cd src
 npm install
 ```
 
-# How to start mysql?
+# How to load tumpang.sql into mysql?
+```
+mysql -h 127.0.0.1 -P 3306 -u root < ~/tumpang-backend/src/tumpang.sql
+```
+
+# How to connect to mysql of docker from host?
 ```
 # Refer https://stackoverflow.com/questions/32360687/connect-to-docker-mysql-container-from-localhost 
 docker-composer up
