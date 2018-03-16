@@ -60,7 +60,7 @@ app.get('testneo4j', (req, res) => {
         json: {
             "statements": [
                 {
-                    "statement": "match (n) RETURN (n)"
+                    "statement": "create ({name: 'random'})"
                 }
             ]
         }
@@ -73,6 +73,7 @@ app.get('testneo4j', (req, res) => {
             console.log(body)
         } else {
             res.status(200).send("Error fetching from neo4j").end()
+            console.log("error");
         }
     });
 });
