@@ -23,6 +23,7 @@ var connection = mysql.createConnection({
     protocol: 'tcp',
     port: '3306'
 });
+var request = require('request');
 
 // [START app]
 const express = require('express');
@@ -63,9 +64,8 @@ app.get('/hello', (req, res) => {
 });
 
 app.get('testneo4j', (req, res) => {
-    var request = require('request');
-
-    request.post('http://localhost:7474/db/data/transaction/commit', {
+    request('http://localhost:7474/db/data/transaction/commit', {
+        method: 'POST',
         json: {
             "statements": [
                 {
