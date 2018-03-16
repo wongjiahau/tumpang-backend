@@ -26,8 +26,6 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
-    // connection.connect();
-
     connection
         .query('select * from user', function (error, results, fields) {
             if (error) 
@@ -38,46 +36,13 @@ app.get('/', (req, res) => {
                 .send(results)
                 .end();
         });
-
-    //connection.end();
 });
 
-app.get('/callGoogle', function(req, res){
-  request('http://www.google.com', function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      // from within the callback, write data to response, essentially returning it.
-      res.send(body);
-    }
-  })
-});
+app.get('/makeInitialRide', (req, res) => {
+    makeInitialRides();
+    res.send("Making inital rides.")
+}) 
 
-app.get('/hello', (req, res) => {
-    res
-        .status(200)
-        .send("Hello there")
-        .end();
-});
-
-app.get('/testneo4j', (req, res) => {
-    request('http://localhost:7474/db/data/transaction/commit', {
-        method: 'POST',
-        json: {
-            "statements": [
-                {
-                    "statement": "match (n) return n"
-                }
-            ]
-        }
-    }, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            res.status(200).send(body).end();
-            console.log(body)
-        } else {
-            res.status(200).send("Error fetching from neo4j").end()
-            console.log("error");
-        }
-    });
-});
 
 // Start the server
 const PORT = process.env.PORT || 8080;
