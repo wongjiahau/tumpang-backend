@@ -2,6 +2,7 @@ const connection = require('./mysqldb').connection;
 const sendQueryYToNeo4j = require('./neo4jdb').sendQueryToNeo4j;
 
 function makeInitialRides() {
+    populateUserNodeToNeo4j();
 }
 
 function populateUserNodeToNeo4j() {
