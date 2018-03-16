@@ -66,6 +66,10 @@ app.get('testneo4j', (req, res) => {
         }
     }, function (error, response, body) {
         if (!error && response.statusCode == 200) {
+            res
+                .status(200)
+                .send(body)
+                .end();
             console.log(body)
         }
     });
