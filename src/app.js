@@ -63,7 +63,7 @@ app.get('/hello', (req, res) => {
         .end();
 });
 
-app.get('testneo4j', (req, res) => {
+app.get('/testneo4j', (req, res) => {
     res.status(200).send("hell").end();
     request('http://localhost:7474/db/data/transaction/commit', {
         method: 'POST',
