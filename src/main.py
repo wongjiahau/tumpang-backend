@@ -4,8 +4,8 @@ def main():
 
 def run_ride_maker():
     while true:
-        populate_node()
         all_users = fetch_all_users()
+        populate_node()
         make_rides(all_users)
         sleep(13 hours)
 

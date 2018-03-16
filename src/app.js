@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-const makeRides = require('./makeRides').makeRides;
+const makeInitialRides = require('./makeInitialRides').makeInitialRides;
 const connection = require('./mysqldb').connection;
 makeRides();
 
@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
     // connection.connect();
 
     connection
-        .query('select * from User', function (error, results, fields) {
+        .query('select * from user', function (error, results, fields) {
             if (error) 
                 throw error;
             console.log('The users are: ', results);
