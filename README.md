@@ -30,7 +30,7 @@ docker exec --interactive --tty <container_id> bin/cypher-shell
 
 # How to run neo4j in docker?
 ```
- sudo docker run \                                                             
+ sudo docker run \
     --publish=7474:7474 --publish=7687:7687 \
     --volume=$HOME/neo4j/data:/data \
     --volume=$HOME/neo4j/logs:/logs \

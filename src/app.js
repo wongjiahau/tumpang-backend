@@ -14,18 +14,10 @@
  */
 
 const makeRides = require('./makeRides').makeRides;
+const connection = require('./mysqldb').connection;
 makeRides();
 
 'use strict';
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-    host: '127.0.0.1',
-    user: 'root',
-    password: '',
-    database: 'tumpang',
-    protocol: 'tcp',
-    port: '3306'
-});
 var request = require('request');
 
 // [START app]
