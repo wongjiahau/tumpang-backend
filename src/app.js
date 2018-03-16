@@ -15,7 +15,7 @@
 
 const makeInitialRides = require('./makeInitialRides').makeInitialRides;
 const connection = require('./mysqldb').connection;
-makeRides();
+makeInitialRides();
 
 'use strict';
 var request = require('request');
