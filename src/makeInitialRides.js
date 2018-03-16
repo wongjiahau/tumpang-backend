@@ -2,15 +2,15 @@ const connection = require('./mysqldb').connection;
 const sendQueryYToNeo4j = require('./neo4jdb').sendQueryToNeo4j;
 
 function makeInitialRides() {
-    populateUserNodeToNeo4j();
+    connection.query('select * from user', (error, results, fields) => {
+        populateUserNodeToNeo4j(results);
+    });
 }
 
-function populateUserNodeToNeo4j() {
-    connection.query('select id, type from user', (error, results, fields) => {
-        sendQueryYToNeo4j("match (n:User) delete n;"); // delete every user
-        results.forEach((r) => {
-            sendQueryYToNeo4j("create (:User{id:'" + r.id + "', type:'" + r.type + "'});") // add every user as node to neo4j
-        });
+function populateUserNodeToNeo4j(users) {
+    sendQueryYToNeo4j("match (n:User) delete n;"); // delete every user
+    users.forEach((r) => {
+        sendQueryYToNeo4j("create (:User{id:'" + r.id + "', type:'" + r.type + "'});") // add every user as node to neo4j
     });
 }
 
