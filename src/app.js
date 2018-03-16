@@ -71,6 +71,8 @@ app.get('testneo4j', (req, res) => {
                 .send(body)
                 .end();
             console.log(body)
+        } else {
+            res.status(200).send("Error fetching from neo4j").end()
         }
     });
 });
