@@ -12,6 +12,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import makeRides from './makeRides'
+
+makeRides();
 
 'use strict';
 var mysql = require('mysql');
