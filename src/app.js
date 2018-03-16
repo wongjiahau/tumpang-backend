@@ -69,16 +69,13 @@ app.get('/testneo4j', (req, res) => {
         json: {
             "statements": [
                 {
-                    "statement": "create ({name: 'random'})"
+                    "statement": "match (n) return n"
                 }
             ]
         }
     }, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            res
-                .status(200)
-                .send(body)
-                .end();
+            res.status(200).send(body).end();
             console.log(body)
         } else {
             res.status(200).send("Error fetching from neo4j").end()
