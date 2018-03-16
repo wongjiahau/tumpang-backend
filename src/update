@@ -1,4 +1,9 @@
 #!/bin/bash
+no_changes=$(git status | grep 'nothing to commit')
+if [ ! -z $no_changes ]; then
+    echo "No changes to be commited"
+    exit 1
+fi
 echo "Enter commit message (can be blank) : "
 read commit_message
 if [ -z $commit_message ]; then
