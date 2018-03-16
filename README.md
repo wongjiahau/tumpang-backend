@@ -1,4 +1,9 @@
 # tumpang-backend
+## Initialization
+```
+cd src
+npm install
+```
 
 # How to start mysql?
 ```
