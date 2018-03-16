@@ -18,8 +18,8 @@ gcloud compute ssh server2
 ```
 # How to send query to neo4j in shell?
 ```
-curl -H "Content-Type: application/json" -X POST -d \ 
-'{"statements":[{"statement":"match (n) return n"}]}' \ 
+curl -H "Content-Type: application/json" -X POST -d \
+'{"statements":[{"statement":"match (n) return n"}]}' \
 http://localhost:7474/db/data/transaction/commit 
 ```
 

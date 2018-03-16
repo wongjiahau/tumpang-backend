@@ -53,7 +53,7 @@ app.get('/hello', (req, res) => {
         .end();
 });
 
-app.get('test/neo4j', (req, res) => {
+app.get('testneo4j', (req, res) => {
     var request = require('request');
 
     request.post('http://localhost:7474/db/data/transaction/commit', {
