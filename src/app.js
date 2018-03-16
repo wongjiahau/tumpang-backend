@@ -14,16 +14,15 @@
  */
 
 'use strict';
-var mysql      = require('mysql');
+var mysql = require('mysql');
 var connection = mysql.createConnection({
-  host     : '127.0.0.1',
-  user     : 'root',
-  password : '',
-  database : 'tumpang',
-  protocol : 'tcp',
-  port     : '3306'
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'tumpang',
+    protocol: 'tcp',
+    port: '3306'
 });
-
 
 // [START app]
 const express = require('express');
@@ -31,25 +30,51 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
-        // connection.connect();
+    // connection.connect();
 
-        connection.query('select * from User', function (error, results, fields) {
-                if (error) throw error;
-                console.log('The users are: ', results);
-                res.status(200).send(results).end();
+    connection
+        .query('select * from User', function (error, results, fields) {
+            if (error) 
+                throw error;
+            console.log('The users are: ', results);
+            res
+                .status(200)
+                .send(results)
+                .end();
         });
 
-        //connection.end();
+    //connection.end();
 });
 
 app.get('/hello', (req, res) => {
-    res.status(200).send("Hello there").end();
-})
+    res
+        .status(200)
+        .send("Hello there")
+        .end();
+});
+
+app.get('test/neo4j', (req, res) => {
+    var request = require('request');
+
+    request.post('http://localhost:7474/db/data/transaction/commit', {
+        json: {
+            "statements": [
+                {
+                    "statement": "match (n) RETURN (n)"
+                }
+            ]
+        }
+    }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            console.log(body)
+        }
+    });
+});
 
 // Start the server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, '127.0.0.1', () => {
-  // console.log(`App listening on port ${PORT}`);
-  console.log('Press Ctrl+C to quit.');
+    // console.log(`App listening on port ${PORT}`);
+    console.log('Press Ctrl+C to quit.');
 });
 // [END app]
