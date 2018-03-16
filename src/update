@@ -1,6 +1,6 @@
 #!/bin/bash
-no_changes=$(git status | grep 'nothing to commit')
-if [ ! -z $no_changes ]; then
+no_changes=$(git status | grep 'nothing to commit' | wc -l)
+if [ $no_changes -eq 1 ]; then
     echo "No changes to be commited"
     exit 1
 fi
