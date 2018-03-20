@@ -3,6 +3,7 @@ const sendQueryYToNeo4j = require('./neo4jdb').sendQueryToNeo4j;
 
 function makeInitialRides() {
     connection.query('select * from user', (error, results, fields) => {
+        console.log(results);;
         populateUserNodeToNeo4j(results);
     });
 }

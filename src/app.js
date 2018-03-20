@@ -38,16 +38,19 @@ app.get('/', (req, res) => {
         });
 });
 
-app.get('/makeInitialRide', (req, res) => {
-    makeInitialRides();
-    res.send("Making inital rides.")
-}) 
+app.get('/acceptRequest', (req, res) => {
+    var userId = req.param('user_id');
+});
+
+
+makeInitialRides();
+console.log("hello");
 
 
 // Start the server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, '127.0.0.1', () => {
-    // console.log(`App listening on port ${PORT}`);
+    console.log(`App listening on port ${PORT}`);
     console.log('Press Ctrl+C to quit.');
 });
 // [END app]
