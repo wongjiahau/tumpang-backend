@@ -43,8 +43,8 @@ app.get('/acceptRequest', (req, res) => {
 });
 
 
+
 makeInitialRides();
-console.log("hello");
 
 
 // Start the server

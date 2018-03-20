@@ -18,7 +18,9 @@ function populateNeo4jFromMysql() {
     function populateUserNodeToNeo4j(users) {
         sendQueryToNeo4j("match (n:User) delete n;"); // delete every user
         users.forEach((r) => {
-            sendQueryToNeo4j(`create (:User${JSON.stringify(r)});`) // add every user as node to neo4j
+            const query = `create (:User${JSON.stringify(r)});`;
+            console.log(query);
+            sendQueryToNeo4j(query); // add every user as node to neo4j
         });
     }
 }
