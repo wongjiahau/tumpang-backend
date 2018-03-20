@@ -3,10 +3,12 @@ const sendQueryToNeo4j = require('./neo4jdb').sendQueryToNeo4j;
 
 // We will assume that neo4j db is populated
 function makeInitialRides() {
-    populateNeo4jFromMysql();
-    // sendQueryToNeo4j("match (n:User) return n;", (err, res, body) => {
-    //     console.log(JSON.stringify(body));
-    // });
+    // populateNeo4jFromMysql();
+    sendQueryToNeo4j("match (n:User) return n;", (err, res, body) => {
+        const users = body;
+        const riders = users.filter((x) => x.type === 'rider');
+        console.log(riders);
+    });
 }
 
 // This function is only for testing
@@ -23,8 +25,6 @@ function populateNeo4jFromMysql() {
             console.log(query);
             sendQueryToNeo4j(query, (err, res, body) => {
                 if(err) console.log(err);
-                if(res) console.log(res);
-                if(body) console.log(body);
             }); // add every user as node to neo4j
         });
     }
