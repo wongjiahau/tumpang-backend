@@ -6,7 +6,7 @@ function makeInitialRides() {
     // populateNeo4jFromMysql();
     sendQueryToNeo4j("match (n:User) return n;", (err, res, body) => {
         const users = body;
-        console.log(users);
+        console.log(JSON.stringify(users));
         // const riders = users.filter((x) => x.type === 'rider');
         // console.log(riders);
     });
