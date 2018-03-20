@@ -11,7 +11,7 @@ function makeInitialRides() {
 
 // This function is only for testing
 function populateNeo4jFromMysql() {
-    connection.query('select * from user', (error, results, fields) => {
+    connection.query('select * from user u inner join userdetails ud on u.id=ud.userid;', (error, results, fields) => {
         populateUserNodeToNeo4j(results);
     });
 
