@@ -1,17 +1,27 @@
 const connection = require('./mysqldb').connection;
-const sendQueryYToNeo4j = require('./neo4jdb').sendQueryToNeo4j;
+const sendQueryToNeo4j = require('./neo4jdb').sendQueryToNeo4j;
 
+// We will assume that neo4j db is populated
 function makeInitialRides() {
+    sendQueryToNeo4j("match (n:User) return n;", (err, res, body) => {
+        console.log(err);
+        console.log(res);
+        console.log(body);
+    });
+
+}
+
+// This function is only for testing
+function populateNeo4jFromMysql() {
     connection.query('select * from user', (error, results, fields) => {
-        console.log(results);;
         populateUserNodeToNeo4j(results);
     });
 }
 
 function populateUserNodeToNeo4j(users) {
-    sendQueryYToNeo4j("match (n:User) delete n;"); // delete every user
+    sendQueryToNeo4j("match (n:User) delete n;"); // delete every user
     users.forEach((r) => {
-        sendQueryYToNeo4j("create (:User{id:'" + r.id + "', type:'" + r.type + "'});") // add every user as node to neo4j
+        sendQueryToNeo4j("create (:User{id:'" + r.id + "', type:'" + r.type + "'});") // add every user as node to neo4j
     });
 }
 
