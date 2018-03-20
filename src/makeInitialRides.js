@@ -6,12 +6,14 @@ function makeInitialRides() {
     // populateNeo4jFromMysql();
     sendQueryToNeo4j("match (n:User) return n;", (err, res, body) => {
         const data = body.results[0].data;
-        const users = [];
+        const allUsers = [];
         data.forEach((o) => {
             const user = o.row[0];
-            users.push(user);
+            allUsers.push(user);
         })
-        console.log(JSON.stringify(users));
+        const riders = allUsers.filter((x) => x.type === 'rider');
+        console.log(JSON.stringify(riders));
+        console.log(riders.length);
         // const riders = users.filter((x) => x.type === 'rider');
         // console.log(riders);
     });
