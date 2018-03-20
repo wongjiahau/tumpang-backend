@@ -4,9 +4,7 @@ const sendQueryToNeo4j = require('./neo4jdb').sendQueryToNeo4j;
 // We will assume that neo4j db is populated
 function makeInitialRides() {
     sendQueryToNeo4j("match (n:User) return n;", (err, res, body) => {
-        console.log(err);
-        console.log(res);
-        console.log(body);
+        console.log(JSON.stringify(body));
     });
 
 }
