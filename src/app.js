@@ -44,7 +44,6 @@ app.get('/acceptRequest', (req, res) => {
 
 
 
-makeInitialRides();
 
 
 // Start the server

@@ -3,7 +3,8 @@ const sendQueryToNeo4j = require('./neo4jdb').sendQueryToNeo4j;
 
 // We will assume that neo4j db is populated
 function makeInitialRides() {
-    // populateNeo4jFromMysql();
+    populateNeo4jFromMysql();
+    return;
     sendQueryToNeo4j("match (n:User) return n;", (err, res, body) => {
         const data = body.results[0].data;
         const allUsers = [];
