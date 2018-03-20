@@ -5,7 +5,7 @@ const sendQueryToNeo4j = require('./neo4jdb').sendQueryToNeo4j;
 function makeInitialRides() {
     // populateNeo4jFromMysql();
     sendQueryToNeo4j("match (n:User) return n;", (err, res, body) => {
-        const users = body;
+        const users = JSON.parse(body);
         const riders = users.filter((x) => x.type === 'rider');
         console.log(riders);
     });
