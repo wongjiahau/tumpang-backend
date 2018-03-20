@@ -18,9 +18,14 @@ function populateNeo4jFromMysql() {
     function populateUserNodeToNeo4j(users) {
         sendQueryToNeo4j("match (n:User) delete n;"); // delete every user
         users.forEach((r) => {
-            const query = `create (:User${JSON.stringify(r)});`;
+            var query = `create (:User${JSON.stringify(r)});`;
+            query = query.replace(/\"([^(\")"]+)\":/g,"$1:"); // remove quotes on property, because neo4j don't accept it
             console.log(query);
-            sendQueryToNeo4j(query); // add every user as node to neo4j
+            sendQueryToNeo4j(query, (err, res, body) => {
+                if(err) console.log(err);
+                if(res) console.log(res);
+                if(body) console.log(body);
+            }); // add every user as node to neo4j
         });
     }
 }
