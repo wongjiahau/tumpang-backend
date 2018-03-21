@@ -1,16 +1,19 @@
 import request from "request";
 
-export function getDistance(origin: string, destinations: string[], callback: (err: any, distances: number[]) => void) {
+export function getDistance(origins: string[], destinations: string[], callback: (err: any, distances: number[]) => void) {
     try {
-        validate(origin);
-        destinations.forEach((x) => validate(x));
-        const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destinations.join("|")}`;
+        origins = origins.map((x) => x.replace(" ", ""));
+        destinations = destinations.map((x) => x.replace(" ", ""));
+        const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origins.join("|")}&destinations=${destinations.join("|")}`;
+        console.log(url);
         request(url, (error, response, body) => {
             const json = JSON.parse(body);
-            const distances = json
-                .rows[0]
+            const distances: any[] = [];
+            json.rows.forEach((r: any) => {
+                 distances.push(r
                 .elements
-                .map((x: any) => parseFloat(x.distance.text.split(" ")[0]));
+                .map((x: any) => parseFloat(x.distance.text.split(" ")[0])));
+            });
             callback(error, distances);
         });
     } catch (error) {
