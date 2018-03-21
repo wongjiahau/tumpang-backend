@@ -1,4 +1,5 @@
 const connection = require('./mysqldb').connection;
+const getDistance = require('./getDistance');
 const sendQueryToNeo4j = require('./neo4jdb').sendQueryToNeo4j;
 
 const MAX_FETCHING_DISTANCE = 2; // km
@@ -6,6 +7,7 @@ const MAX_FETCHING_DISTANCE = 2; // km
 // We will assume that neo4j db is populated
 function makeInitialRides() {
     sendQueryToNeo4j("match (n:User) return n;", (err, res, body) => {
+        console.log(body);
         const data = body.results[0].data;
         const allUsers = [];
         data.forEach((o) => {
@@ -26,17 +28,6 @@ function makeInitialRides() {
     });
 }
 
-function getDistance(origin, destinations, callback) {
-    var request = require('request');
-    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destinations.join('|')}`;
-    request(url, function (error, response, body) {
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        const distances = body.rows[0].elements.map(x => parseInt(x.distance.text.split(' ')[0]));
-        callback(distances);
-        console.log('body:', body); // Print the HTML for the Google homepage.
-    });
-}
 
 // This function is only for testing
 function populateNeo4jFromMysql() {
