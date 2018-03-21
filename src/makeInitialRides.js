@@ -8,7 +8,7 @@ const MAX_FETCHING_DISTANCE = 2; // km
 function makeInitialRides() {
     sendQueryToNeo4j("match (n:User) return n;", (err, res, body) => {
         const data = body.results[0].data;
-        console.log(data);
+        console.log(JSON.stringify(data));
         const allUsers = [];
         data.forEach((o) => {
             const user = o.row[0];
