@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import {getDistance} from "../getDistance";
 
-describe.only("getDistance", () => {
+describe("getDistance", () => {
     it("case 1", (done) => {
         const ori1 = "2.747968,101.666252";
         const ori2 = "3.093289, 101.700484";
