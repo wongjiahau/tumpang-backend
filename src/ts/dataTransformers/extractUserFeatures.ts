@@ -1,6 +1,6 @@
 import { IRider } from "./../models/rider";
 import {flattenTime} from "./flattenTime";
-export function extractRiderFeatures(rider: IRider, day: number ): number[] {
+export function extractUserFeatures(rider: IRider, day: number ): number[] {
     return [
         rider.departure.latitude,
         rider.departure.longitude,

@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import { IRider } from "../../models/rider";
-import { extractRiderFeatures } from "../extractRiderFeatures";
+import { extractUserFeatures } from "../extractUserFeatures";
 
-describe("extractRiderFeatures", () => {
+describe("extractUserFeatures", () => {
     // LEGEND:
     // dept = departure
     // arr  = arrival
@@ -28,7 +28,7 @@ describe("extractRiderFeatures", () => {
             arrival: {latitude: -55.5, longitude: 99.99},
             type: "rider"
         };
-        const result = extractRiderFeatures(rider, 1);
+        const result = extractUserFeatures(rider, 1);
         expect(result).to.deep.eq([3.33, 44.4, -55.5, 99.99, 540, 1080]);
     });
 });
