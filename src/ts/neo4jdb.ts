@@ -1,7 +1,10 @@
 import { IDriver } from "./models/driver";
 import {IRider} from "./models/rider";
+import { parseSchedule } from "./models/schedule";
 export interface INeo4jDb {
     sendQueryToNeo4j(query: string, callback: (err: any, res: any, body: any) => void): void;
+    fetchRiders(callback: (err: any, riders: IRider[]) => void): void;
+    fetchDrivers(callback: (err: any, drivers: IDriver[]) => void): void;
 }
 export class Neo4jDb implements INeo4jDb {
     public sendQueryToNeo4j(query: string, callback: (err: any, res: any, body: any) => void) {
@@ -33,7 +36,7 @@ export class Neo4jDb implements INeo4jDb {
                     name:      row.name,
                     phone:     row.phone,
                     address:   row.address,
-                    schedule:  row.schedule,
+                    schedule:  parseSchedule(row.schedule),
                     departure: row.departure,
                     arrival:   row.arrival,
                     type:      row.type
@@ -44,7 +47,7 @@ export class Neo4jDb implements INeo4jDb {
         });
     }
 
-    public fetchDrivers(callback: (error: any, riders: IRider[]) => void) {
+    public fetchDrivers(callback: (error: any, drivers: IDriver[]) => void) {
         this.sendQueryToNeo4j("MATCH (driver:User{type:'driver'})-[:OWNS]->(car) return driver, car;", (err, res, body) => {
             const data: any[] = body.results[0].data;
             const drivers: any[] = [];
@@ -56,7 +59,7 @@ export class Neo4jDb implements INeo4jDb {
                     name:      driverData.name,
                     phone:     driverData.phone,
                     address:   driverData.address,
-                    schedule:  driverData.schedule,
+                    schedule:  parseSchedule(driverData.schedule),
                     departure: driverData.departure,
                     arrival:   driverData.arrival,
                     type:      driverData.type,
