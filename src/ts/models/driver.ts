@@ -1,6 +1,6 @@
-import { Car } from "./car";
-import { Rider } from "./rider";
+import { ICar } from "./car";
+import { IRider } from "./rider";
 
-export class Driver extends Rider {
-    public readonly car: Car;
+export interface IDriver extends IRider {
+    readonly car: ICar;
 }

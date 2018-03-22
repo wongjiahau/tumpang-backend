@@ -1,6 +1,7 @@
+import { IDriver } from "./models/driver";
 import {IRider} from "./models/rider";
 export interface INeo4jDb {
-    sendQueryToNeo4j(query : string, callback : (err : any, res : any, body : any) => void): void;
+    sendQueryToNeo4j(query: string, callback: (err: any, res: any, body: any) => void): void;
 }
 export class Neo4jDb implements INeo4jDb {
     public sendQueryToNeo4j(query: string, callback: (err: any, res: any, body: any) => void) {
@@ -40,6 +41,35 @@ export class Neo4jDb implements INeo4jDb {
                 riders.push(r);
             });
             callback(err, riders);
+        });
+    }
+
+    public fetchDrivers(callback: (error: any, riders: IRider[]) => void) {
+        this.sendQueryToNeo4j("MATCH (driver:User{type:'driver'})-[:OWNS]->(car) return driver, car;", (err, res, body) => {
+            const data: any[] = body.results[0].data;
+            const drivers: any[] = [];
+            data.forEach((x) => {
+                const driverData = x.row[0];
+                const carData = x.row[1];
+                const r: IDriver = {
+                    id:        driverData.id,
+                    name:      driverData.name,
+                    phone:     driverData.phone,
+                    address:   driverData.address,
+                    schedule:  driverData.schedule,
+                    departure: driverData.departure,
+                    arrival:   driverData.arrival,
+                    type:      driverData.type,
+                    car: {
+                        model   : carData.model,
+                        capacity: carData.capacity,
+                        plateNum: carData.platenum,
+                        color   : carData.color
+                    }
+                };
+                drivers.push(r);
+            });
+            callback(err, drivers);
         });
     }
 
