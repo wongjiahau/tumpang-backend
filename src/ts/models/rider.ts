@@ -5,7 +5,7 @@ export interface IRider {
     readonly name: string;
     readonly phone: string;
     readonly address: string;
-    readonly schedule: ISchedule[];
+    readonly schedule: {[index: number]: ISchedule};
     readonly departure: string;
     readonly arrival: string;
     readonly type: "rider" | "driver";
