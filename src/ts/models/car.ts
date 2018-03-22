@@ -1,6 +1,6 @@
 export interface ICar {
     readonly model: string;
-    readonly capacity: number;
+    capacity: number;
     readonly plateNum: string;
     readonly color: string;
 }

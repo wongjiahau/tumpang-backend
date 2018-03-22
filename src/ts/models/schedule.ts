@@ -1,5 +1,5 @@
 export interface ISchedule {
-    readonly startTime: number;
+    startTime: number;
     readonly endTime: number;
 }
 

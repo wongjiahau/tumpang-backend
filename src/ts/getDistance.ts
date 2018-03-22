@@ -1,6 +1,6 @@
 import request from "request";
 
-export function getDistance(origins: string[], destinations: string[], callback: (err: any, distances: number[]) => void) {
+export function getDistance(origins: string[], destinations: string[], callback: (err: any, distances: number[][]) => void) {
     try {
         origins = origins.map((x) => x.replace(" ", ""));
         destinations = destinations.map((x) => x.replace(" ", ""));

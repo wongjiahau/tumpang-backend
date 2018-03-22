@@ -30,17 +30,36 @@ http://localhost:7474/db/data/transaction/commit
 
 # How to open neo4j Cypher shell?
 ```
-docker exec --interactive --tty <container_id> bin/cypher-shell
+docker exec --interactive --tty neo4jdb bin/cypher-shell
 ```
 
-# How to run neo4j in docker?
+# How to create neo4j container?
 ```
- sudo docker run \
+# The following command only needed to be run one time
+sudo docker run \
+    --name neo4jdb \
+    --detach \
     --publish=7474:7474 --publish=7687:7687 \
     --volume=$HOME/neo4j/data:/data \
     --volume=$HOME/neo4j/logs:/logs \
     --env NEO4J_AUTH=none \
     neo4j
+
+# After that, run the following command
+docker start neo4jdb
+```
+
+# How to create mysql container?
+```
+sudo docker run \
+    --name mysqldb \
+    --detach \
+    --publish=3306:3306 \
+    --env MYSQL_ROOT_PASSWORD='' \
+    --env MYSQL_ALLOW_EMPTY_PASSWORD='true' \
+    mysql
+
+docker start mysqldb
 ```
 
 # What to do if deploy fails?
