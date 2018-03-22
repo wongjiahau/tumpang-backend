@@ -1,3 +1,4 @@
+import { Coordinate } from "./models/coordinate";
 import { IDriver } from "./models/driver";
 import {IRider} from "./models/rider";
 import { parseSchedule } from "./models/schedule";
@@ -37,8 +38,8 @@ export class Neo4jDb implements INeo4jDb {
                     phone:     row.phone,
                     address:   row.address,
                     schedule:  parseSchedule(row.schedule),
-                    departure: row.departure,
-                    arrival:   row.arrival,
+                    departure: Coordinate.parse(row.departure),
+                    arrival:   Coordinate.parse(row.arrival),
                     type:      row.type
                 };
                 riders.push(r);
@@ -60,8 +61,8 @@ export class Neo4jDb implements INeo4jDb {
                     phone:     driverData.phone,
                     address:   driverData.address,
                     schedule:  parseSchedule(driverData.schedule),
-                    departure: driverData.departure,
-                    arrival:   driverData.arrival,
+                    departure: Coordinate.parse(driverData.departure),
+                    arrival:   Coordinate.parse(driverData.arrival),
                     type:      driverData.type,
                     car: {
                         model   : carData.model,

@@ -3,7 +3,7 @@ export interface ICoordinate {
     longitude: number;
 }
 
-export class Coordinate implements ICoordinate {
+export class Coordinate {
     /**
      * Parse string input into Location
      * Input must be delimited by comma
@@ -13,20 +13,14 @@ export class Coordinate implements ICoordinate {
      * @memberof Location
      * @returns Location object
      */
-    public static parse(str: string): Coordinate {
+    public static parse(str: string): ICoordinate {
         const toks = str.split(",");
-        return new Coordinate(parseFloat(toks[0]), parseFloat(toks[1]));
+        return {
+            latitude: parseFloat(toks[0]),
+            longitude: parseFloat(toks[1])
+        };
     }
 
-    public readonly latitude: number;
-    public readonly longitude: number;
-    public constructor(latitude: number, longitude: number) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
+    public static stringify(c: ICoordinate): string {return `${c.latitude},${c.longitude}`; }
 
-    public toString(): string {
-        return `${this.latitude},${this.longitude}`;
-    }
-    
 }
