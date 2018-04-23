@@ -13,66 +13,50 @@
  * limitations under the License.
  */
 
-import request = require("request");
-
 // [START app]
 import express from "express";
+import { ICluster } from "./cluster";
+import { getDistance } from "./getDistance";
+import { Coordinate } from "./models/coordinate";
 import { connection } from "./mysqldb";
 import { Neo4jDb } from "./neo4jdb";
-import { populateNeo4jFromMysql, RideMaker } from "./rideMaker";
+import { RideMaker } from "./rideMaker";
 
 const app = express();
 
-app.get("/cron", (req, res) => {
+app.get("/runMatchMaking", async (req, res) => {
     const db = new Neo4jDb();
-    db.fetchRiders((err1, riders) => {
-        db.fetchDrivers((err2, drivers) => {
-            const dateOfTomorrow = new Date();
-            dateOfTomorrow.setDate((new Date()).getDate() + 1);
-            const dayOfTomorrow = dateOfTomorrow.getDay();
-            const eligibleRiders = riders.filter((r) => !isNaN(r.schedule[dayOfTomorrow].startTime));
-            const eligibleDrivers = drivers.filter((d) => !isNaN(d.schedule[dayOfTomorrow].startTime));
-            const clusters = new RideMaker().findCluster(dayOfTomorrow, eligibleRiders, eligibleDrivers);
-            const simplifiedClusters = clusters.map((x) => ({driverId: x.driver.id, ridersIds: x.riders.map((r) => r.id)}));
-            simplifiedClusters.forEach((c) => {
-                c.ridersIds.forEach((riderId) => {
-                    const query = "MATCH (driver{id:'" + c.driverId + "'}), (rider{id:'" + riderId + "'}) CREATE (driver)-[:FETCHING]->(rider);";
-                    db.sendQueryToNeo4j(query, (err, response, body) => {
-                        if (err) {
-                            res.send(err);
-                        }
-                    });
-                    // res.send(query);
-                });
-            });
-            // res.send(JSON.stringify(simplifiedClusters));
+    const riders = await db.fetchRiders();
+    const drivers = await db.fetchDrivers();
+    const dateOfTomorrow = new Date();
+    dateOfTomorrow.setDate((new Date()).getDate() + 1);
+    const dayOfTomorrow = dateOfTomorrow.getDay();
+    const eligibleRiders = riders.filter((r) => !isNaN(r.schedule[dayOfTomorrow].startTime));
+    const eligibleDrivers = drivers.filter((d) => !isNaN(d.schedule[dayOfTomorrow].startTime));
+    // getDistance(eligibleDrivers.map((d) => Coordinate.stringify(d.departure)))
+    const clusters = new RideMaker().findCluster(dayOfTomorrow, eligibleRiders, eligibleDrivers);
+    // const cleanseClusters: ICluster[] = [];
+    // clusters.forEach((c) => {
+    //     const distances
+    // });
+    const simplifiedClusters = clusters.map((x) => ({driverId: x.driver.id, ridersIds: x.riders.map((r) => r.id)}));
+    simplifiedClusters.forEach((c) => {
+        c.ridersIds.forEach(async (riderId) => {
+            const query = "MATCH (driver{id:'" + c.driverId + "'}), (rider{id:'" + riderId + "'}) CREATE (driver)-[:FETCHING]->(rider);";
+            await db.sendQueryToNeo4j(query);
         });
     });
-
+    res.send("Matching making completed.");
 });
 
-app.get("/queryNeo4j", (req, res) => {
+app.get("/queryNeo4j", async (req, res) => {
     const db = new Neo4jDb();
-    db.sendQueryToNeo4j("match (u:User)-[]->(car) return u,car;", (err, response, body) => {
-        res
-            .status(200)
-            .send(body)
-            .end();
-    });
+    const body = await db.sendQueryToNeo4j("match (u:User)-[]->(car) return u,car;");
+    res.status(200).send(body).end();
 });
 
 app.get("/", (req, res) => {
-    connection
-        .query("select * from user", (error, results, fields) => {
-            if (error) {
-                throw error;
-            }
-            console.log("The users are: ", results);
-            res
-                .status(200)
-                .send(results)
-                .end();
-        });
+    res.send("hello");
 });
 
 app.get("/acceptRequest", (req, res) => {
