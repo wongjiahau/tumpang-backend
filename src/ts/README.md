@@ -20,4 +20,16 @@ Start the neo4jdb docker
 docker start neo4jdb
 docker exec --interactive --tty neo4jdb cypher-shell
 ```
-Then, copy all the code in tumpang.cypher to the neo4j instance.
+Then, copy all the code in `tumpang.cypher` to the neo4j instance.
+
+# How to open Neo4j in browser?
+Go to the following link.
+```
+http://localhost:7474/browser/
+```
+
+# How to trigger the server to run match making?
+Make a get request to the following link.
+```
+http://localhost:8080/runMatchMaking
+```
