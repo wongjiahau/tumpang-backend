@@ -55,7 +55,7 @@ app.get("/queryNeo4j", async (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.send("hello");
+    res.send("It works!");
 });
 
 app.get("/acceptRequest", (req, res) => {
