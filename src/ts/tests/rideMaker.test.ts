@@ -78,16 +78,4 @@ describe("rideMaker", () => {
         expect(clusters[1].riders).to.have.lengthOf(1);
         expect(clusters[1].riders[0].name).to.eq("john");
     });
-
-    it("should not get into infinite looping", (done) => {
-        const db = new Neo4jDb();
-        db.fetchDrivers((err1, drivers) => {
-            db.fetchRiders((err2, riders) => {
-                const day = 1; // monday
-                const rideMaker = new RideMaker();
-                const clusters = rideMaker.findCluster(day, riders, drivers);
-                done();
-            });
-        });
-    });
 });
