@@ -18,6 +18,6 @@ Then, run the following command
 Start the neo4jdb docker
 ```
 docker start neo4jdb
-docker exec --interactive --tty neo4jdb bin/cypher-shell
+docker exec --interactive --tty neo4jdb cypher-shell
 ```
 Then, copy all the code in tumpang.cypher to the neo4j instance.
