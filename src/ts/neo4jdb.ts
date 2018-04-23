@@ -21,17 +21,16 @@ export class Neo4jDb implements INeo4jDb {
                 if (error) {
                      reject(error);
                 } else {
-                     resolve(body);
+                     resolve(body.results[0].data);
                 }
             });
         });
     }
 
     public async fetchRiders(): Promise<IRider[]> {
-        const body = await this.sendQueryToNeo4j("MATCH (rider:User{type:'rider'}) return rider;");
-        const data: any[] = body.results[0].data;
+        const data = await this.sendQueryToNeo4j("MATCH (rider:User{type:'rider'}) return rider;");
         const riders: any[] = [];
-        data.forEach((x) => {
+        data.forEach((x: any) => {
                 const row = x.row[0];
                 const r: IRider = {
                     id:        row.id,
@@ -51,10 +50,9 @@ export class Neo4jDb implements INeo4jDb {
     }
 
     public async fetchDrivers(): Promise<IDriver[]> {
-        const body = await this.sendQueryToNeo4j("MATCH (driver:User{type:'driver'})-[:OWNS]->(car) return driver, car;");
-        const data: any[] = body.results[0].data;
+        const data = await this.sendQueryToNeo4j("MATCH (driver:User{type:'driver'})-[:OWNS]->(car) return driver, car;");
         const drivers: any[] = [];
-        data.forEach((x) => {
+        data.forEach((x: any) => {
             const driverData = x.row[0];
             const carData = x.row[1];
             const r: IDriver = {
@@ -78,6 +76,14 @@ export class Neo4jDb implements INeo4jDb {
         return new Promise<IDriver[]>((resolve) => {
             resolve(drivers);
         });
+    }
+
+    public async LinkDriverToRider(driverId: string, riderId: string) {
+        const query =
+            "MATCH (driver{id:'" + driverId + "'})," +
+            "(rider{id:'" + riderId + "'}) " +
+            "CREATE (driver)-[:FETCHING]->(rider);";
+        await this.sendQueryToNeo4j(query);
     }
 
 }

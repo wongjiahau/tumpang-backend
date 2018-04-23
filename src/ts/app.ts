@@ -42,8 +42,7 @@ app.get("/runMatchMaking", async (req, res) => {
     const simplifiedClusters = clusters.map((x) => ({driverId: x.driver.id, ridersIds: x.riders.map((r) => r.id)}));
     simplifiedClusters.forEach((c) => {
         c.ridersIds.forEach(async (riderId) => {
-            const query = "MATCH (driver{id:'" + c.driverId + "'}), (rider{id:'" + riderId + "'}) CREATE (driver)-[:FETCHING]->(rider);";
-            await db.sendQueryToNeo4j(query);
+            await db.LinkDriverToRider(c.driverId, riderId);
         });
     });
     res.send("Matching making completed.");
