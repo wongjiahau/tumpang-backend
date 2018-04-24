@@ -7,7 +7,7 @@ import { Neo4jDb } from "./neo4jdb";
 export class DBRetrieve extends Neo4jDb {
 
     public async fetchRiders(): Promise<IRider[]> {
-        const data = await this.sendQueryToNeo4j("MATCH (rider:User{type:'rider'}) return rider;");
+        const data = await this.sendQuery("MATCH (rider:User{type:'rider'}) return rider;");
         const riders: any[] = [];
         data.forEach((x: any) => {
                 const row = x.row[0];
@@ -29,7 +29,7 @@ export class DBRetrieve extends Neo4jDb {
     }
 
     public async fetchDrivers(): Promise<IDriver[]> {
-        const data = await this.sendQueryToNeo4j("MATCH (driver:User{type:'driver'})-[:OWNS]->(car) return driver, car;");
+        const data = await this.sendQuery("MATCH (driver:User{type:'driver'})-[:OWNS]->(car) return driver, car;");
         const drivers: any[] = [];
         data.forEach((x: any) => {
             const driverData = x.row[0];

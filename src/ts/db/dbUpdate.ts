@@ -6,6 +6,6 @@ export class DBUpdate extends Neo4jDb {
             "MATCH (driver{id:'" + driverId + "'})," +
             "(rider{id:'" + riderId + "'}) " +
             "CREATE (driver)-[:FETCHING]->(rider);";
-        await this.sendQueryToNeo4j(query);
+        await this.sendQuery(query);
     }
 }
