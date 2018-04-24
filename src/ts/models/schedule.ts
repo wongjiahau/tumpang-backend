@@ -14,3 +14,22 @@ export function parseSchedule(str: string): {[index: number]: ISchedule} {
     });
     return result;
 }
+
+export function stringifySchedule(schedules: {[index: number]: ISchedule}): string {
+    let result = "";
+    const padToFour = (num: number): string => ("000" + num).slice(-4);
+    for (const key in schedules) {
+        if (schedules.hasOwnProperty(key)) {
+            const startTime = schedules[key].startTime;
+            if (isNaN(startTime)) {
+                result += "-|";
+                continue;
+            }
+            result += padToFour(startTime);
+            result += "-";
+            result += padToFour(schedules[key].endTime);
+            result += "|";
+        }
+    }
+    return result.slice(0, result.length - 1);
+}
