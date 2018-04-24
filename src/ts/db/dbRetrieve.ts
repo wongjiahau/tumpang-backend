@@ -1,31 +1,10 @@
-import { Coordinate } from "./models/coordinate";
-import { IDriver } from "./models/driver";
-import {IRider} from "./models/rider";
-import { parseSchedule } from "./models/schedule";
-export interface INeo4jDb {
-    sendQueryToNeo4j(query: string): Promise<any>;
-    fetchRiders(): Promise<IRider[]>;
-    fetchDrivers(callback: (err: any, drivers: IDriver[]) => void): void;
-}
+import { Coordinate } from "../models/coordinate";
+import { IDriver } from "../models/driver";
+import { IRider } from "../models/rider";
+import { parseSchedule } from "../models/schedule";
+import { Neo4jDb } from "./neo4jdb";
 
-export class Neo4jDb implements INeo4jDb {
-    public sendQueryToNeo4j(query: string): Promise<any> {
-        return new Promise<any>((resolve, reject) => {
-            const request = require("request");
-            request("http://localhost:7474/db/data/transaction/commit", {
-                json: {
-                    statements: [{ statement: query }]
-                },
-                method: "POST"
-            }, (error: any, response: any, body: any) => {
-                if (error) {
-                     reject(error);
-                } else {
-                     resolve(body.results[0].data);
-                }
-            });
-        });
-    }
+export class DBRetrieve extends Neo4jDb {
 
     public async fetchRiders(): Promise<IRider[]> {
         const data = await this.sendQueryToNeo4j("MATCH (rider:User{type:'rider'}) return rider;");
@@ -77,13 +56,4 @@ export class Neo4jDb implements INeo4jDb {
             resolve(drivers);
         });
     }
-
-    public async LinkDriverToRider(driverId: string, riderId: string) {
-        const query =
-            "MATCH (driver{id:'" + driverId + "'})," +
-            "(rider{id:'" + riderId + "'}) " +
-            "CREATE (driver)-[:FETCHING]->(rider);";
-        await this.sendQueryToNeo4j(query);
-    }
-
 }

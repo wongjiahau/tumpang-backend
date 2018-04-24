@@ -1,26 +1,10 @@
-import {expect} from "chai";
-import {Neo4jDb} from "./../neo4jdb";
+import { expect } from "chai";
+import { DBRetrieve } from "../dbRetrieve";
 
-function reinjecetTestData() {
-    const db = new Neo4jDb();
-    const fs = require("fs");
-    const path = require("path");
-    const filePath = path.join(__dirname, "../../tumpang.cypher");
-    fs.readFile(filePath, {encoding: "utf-8"}, (err: any, data: any) => {
-        data.split("\n").forEach((query: string) => {
-            db.sendQueryToNeo4j(query);
-        });
-        if (err) {
-            console.log(err);
-        }
-    });
-}
-// reinjecetTestData();
-
-describe("neo4jdb", () => {
+describe("DBRetrieve", () => {
     describe("fetchRiders", () => {
         it("case 1", async () => {
-            const db = new Neo4jDb();
+            const db = new DBRetrieve();
             const riders = await db.fetchRiders();
             expect(riders).to.have.lengthOf(9);
             expect(riders.filter((x) => x.id === "u2")[0]).to.deep.eq({
@@ -46,7 +30,7 @@ describe("neo4jdb", () => {
 
     describe("fetchDrivers", () => {
         it("case 1", async () => {
-            const db = new Neo4jDb();
+            const db = new DBRetrieve();
             const drivers = await db.fetchDrivers();
             expect(drivers).to.have.lengthOf(2);
             expect(drivers.filter((x) => x.id === "u1")[0]).to .deep.eq({
@@ -76,18 +60,4 @@ describe("neo4jdb", () => {
         });
     });
 
-    describe("LinkDriverToRider", () => {
-        it("case 1", async () => {
-            const db = new Neo4jDb();
-            const driverId = "u1";
-            const riderId = "u3";
-            db.LinkDriverToRider(driverId, riderId);
-            const result = await db.sendQueryToNeo4j("match (a)-[:FETCHING]->(b) return a,b;");
-            const users = result[0].row;
-            expect(users).to.have.lengthOf(2);
-            expect(users.filter((x: any) => x.id === driverId)).to.have.lengthOf(1);
-            expect(users.filter((x: any) => x.id === riderId)).to.have.lengthOf(1);
-            await db.sendQueryToNeo4j("match ()-[r:FETCHING]->() delete r;");
-        });
-    });
 });
