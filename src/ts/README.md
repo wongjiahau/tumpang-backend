@@ -11,7 +11,15 @@ Then, run the following command
 
 # How to run the server?
 ```
-./run
+npm run start
+```
+This will run the development server in watch mode, that is whenever there are changes in the file, the server will be restarted automatically.  
+This is done using `nodemon`.
+
+# How to run test?
+```
+cd src
+npm run test
 ```
 
 # How to load test data into neo4j?
@@ -29,7 +37,6 @@ http://localhost:7474/browser/
 ```
 
 # How to trigger the server to run match making?
-Make a get request to the following link.
 ```
-http://localhost:8080/runMatchMaking
+curl http://localhost:8080/runMatchMaking
 ```

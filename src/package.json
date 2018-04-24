@@ -14,7 +14,7 @@
   },
   "scripts": {
     "deploy": "gcloud app deploy",
-    "start": "node app.js",
+    "start": "nodemon ./js/app.js",
     "system-test": "samples test app",
     "test": "jest tests --watch",
     "e2e-test": "samples test deploy"
@@ -35,7 +35,8 @@
     "@types/request": "^2.47.0",
     "chai": "^4.1.2",
     "jest": "^22.4.2",
-    "mocha": "^5.0.4"
+    "mocha": "^5.0.4",
+    "nodemon": "^1.17.3"
   },
   "cloud-repo-tools": {
     "test": {
