@@ -3,7 +3,8 @@ import {Neo4jDb} from "./../neo4jdb";
 export function setupTest(done: MochaDone, verboseOutput = false) {
     const query = `
 match (n) detach delete n;
-create (:User{id:"u1" , schedule:"0830-1800|0830-1800|0830-1800|0830-1800|0830-1700|0830-1500|-", departure:"3.0780289, 101.60655040000006",arrival:"3.1615,101.69799999999998"   ,company:"Queen's College KL" ,type:"driver",currentkms:0,name:"jackson"    ,phone:"0123456789" ,address:"84,, 60, lorong pjs 10/24a, bandar sunway, 46150 petaling jaya, selangor"}) -[:OWNS]->(:Car{model:"myvi",capacity:4,platenum:"wre 8907",color:"yellow"}); create (:User{id:"u2" , schedule:"0900-1800|0900-1800|0900-1800|0900-1800|0900-1700|0900-1600|-", departure:"3.0756886,101.60675049999998" ,arrival:"3.1615,101.69799999999998"   ,company:"Queen's College KL"                 ,type:"rider" ,currentkms:0,name:"peter"      ,phone:"0123478579",address:"jalan pjs 10/15,bandar sunway,46150 petaling jaya,selangor "});
+create (:User{id:"u1" , schedule:"0830-1800|0830-1800|0830-1800|0830-1800|0830-1700|0830-1500|-", departure:"3.0780289, 101.60655040000006",arrival:"3.1615,101.69799999999998"   ,company:"Queen's College KL" ,type:"driver",currentkms:0,name:"jackson"    ,phone:"0123456789" ,address:"84,, 60, lorong pjs 10/24a, bandar sunway, 46150 petaling jaya, selangor"}) -[:OWNS]->(:Car{model:"myvi",capacity:4,platenum:"wre 8907",color:"yellow"});
+create (:User{id:"u2" , schedule:"0900-1800|0900-1800|0900-1800|0900-1800|0900-1700|0900-1600|-", departure:"3.0756886,101.60675049999998" ,arrival:"3.1615,101.69799999999998"   ,company:"Queen's College KL"                 ,type:"rider" ,currentkms:0,name:"peter"      ,phone:"0123478579",address:"jalan pjs 10/15,bandar sunway,46150 petaling jaya,selangor "});
 create (:User{id:"u3" , schedule:"0840-1800|0840-1800|0840-1800|0840-1800|0840-1700|0840-1500|-", departure:"3.078338,101.60849659999997"  ,arrival:"3.1615,101.69799999999998"   ,company:"Queen's College KL" ,type:"rider" ,currentkms:0,name:"aiman"      ,phone:"012003219" ,address:"jalan pjs 10/32,bandar sunway,46150 petaling jaya,selangor"});
 create (:User{id:"u4" , schedule:"0840-1730|0840-1730|0840-1730|0840-1730|0840-1730|-|-"        , departure:"3.075149,101.60616000000005"  ,arrival:"3.1326988,101.67225259999998",company:"WTF Restaurant"     ,type:"rider" ,currentkms:0,name:"natasha"    ,phone:"014512219" ,address:"22 g, jalan pjs 10/22, subang indah, selangor, pjs 10, 46000 petaling jaya, selangor"});
 create (:User{id:"u5" , schedule:"0845-1730|0845-1730|0845-1730|0845-1730|0845-1730|-|-"        , departure:"3.0749643,101.6008663"        ,arrival:"3.1326988,101.67225259999998",company:"WTF Restaurant"     ,type:"rider" ,currentkms:0,name:"dheeno"     ,phone:"0145889219",address:"jalan pjs 10/7,bandar sunway,46150 petaling jaya,selangor"});
@@ -19,6 +20,7 @@ create (:User{id:"u11", schedule:"0850-1800|0by 850-1800|0850-1800|0850-1800|085
     let i = queries.length;
     queries.forEach((q) => {
         if (verboseOutput) {
+            // tslint:disable-next-line:no-console
             console.log("Running query : " + q);
         }
         db.sendQuery(q);
@@ -26,6 +28,7 @@ create (:User{id:"u11", schedule:"0850-1800|0by 850-1800|0850-1800|0850-1800|085
         if (i === 0) {
             done();
             if (verboseOutput) {
+                // tslint:disable-next-line:no-console
                 console.log("Setup completed.");
             }
         }

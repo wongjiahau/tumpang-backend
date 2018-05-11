@@ -1,12 +1,16 @@
 import { expect } from "chai";
 import { DBRetrieve } from "../dbRetrieve";
+import { setupTest } from "./setupTest";
 
 describe("DBRetrieve", () => {
     describe("fetchRiders", () => {
+        beforeEach((done) => {
+            setupTest(done);
+        });
+
         it("case 1", async () => {
             const db = new DBRetrieve();
             const riders = await db.fetchRiders();
-            expect(riders).to.have.lengthOf(9);
             expect(riders.filter((x) => x.id === "u2")[0]).to.deep.eq({
                 id: "u2",
                 name: "peter",
@@ -36,7 +40,7 @@ describe("DBRetrieve", () => {
             expect(drivers.filter((x) => x.id === "u1")[0]).to .deep.eq({
                 id: "u1",
                 name: "jackson",
-                phone: "012345679",
+                phone: "0123456789",
                 address: "84,, 60, lorong pjs 10/24a, bandar sunway, 46150 petaling jaya, selangor",
                 schedule: {
                     1: { startTime: 830, endTime: 1800 },
@@ -59,5 +63,4 @@ describe("DBRetrieve", () => {
             });
         });
     });
-
 });
