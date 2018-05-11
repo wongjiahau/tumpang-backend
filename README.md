@@ -77,3 +77,8 @@ https://stackoverflow.com/questions/8541182/apache-redirect-to-another-port
 cd src
 node js/app.js
 ```
+
+## How to trigger the server to run match making?
+```
+curl http://localhost:8080/runMatchMaking
+```

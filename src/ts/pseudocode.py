@@ -1,6 +1,9 @@
+# This file is just an idea
+
 def main():
     # main should be the shell process
     run_as_background(run_ride_maker)
+
 
 def run_ride_maker():
     while true:
