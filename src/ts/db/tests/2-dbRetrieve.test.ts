@@ -1,11 +1,13 @@
 import { expect } from "chai";
+import { setTimeout } from "timers";
 import { DBRetrieve } from "../dbRetrieve";
 import { setupTest } from "./setupTest";
 
 describe("DBRetrieve", () => {
     describe("fetchRiders", () => {
         beforeEach((done) => {
-            setupTest(done);
+            setupTest(() => { /* empty */});
+            setTimeout(() => done(), 300);
         });
 
         it("case 1", async () => {

@@ -5,7 +5,10 @@ import { setupTest } from "./setupTest";
 describe("neo4jdb", () => {
     describe("sendQuery", () => {
         beforeEach((done) => {
-            setupTest(done);
+            setupTest();
+            setTimeout(() => {
+                done();
+            }, 100);
         });
 
         it("case 1", async () => {
