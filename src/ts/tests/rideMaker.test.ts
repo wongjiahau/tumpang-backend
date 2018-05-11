@@ -1,6 +1,4 @@
 import { expect } from "chai";
-import {IRequest} from "../models/request";
-import {Neo4jDb} from "../neo4jdb";
 import {RideMaker} from "../rideMaker";
 import { sampleDrivers } from "./../dataTransformers/tests/sampleDrivers";
 

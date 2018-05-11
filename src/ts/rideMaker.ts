@@ -61,26 +61,3 @@ export class RideMaker {
 
     }
 }
-
-// This function is only for testing
-export function populateNeo4jFromMysql(neo4jdb: INeo4jDb, callback: (res: any) => void) {
-    connection.query("select * from user u inner join userdetails ud on u.id=ud.userid left join car c on u.id=c.userid inner join schedule s on u.id=s.userid;", (error, results, fields) => {
-        populateUserNodeToNeo4j(results, callback);
-    });
-
-    function populateUserNodeToNeo4j(users: any[], callback2: (res: any) => void) {
-        neo4jdb.sendQueryToNeo4j("match (n:User) delete n;", (err, res, body) => {/*do nothing*/}); // delete every user
-        const queries: string[] = [];
-        users.forEach((r) => {
-            let query = `create (:User${JSON.stringify(r)});`;
-            query = query.replace(/\"([^(\")"]+)\":/g, "$1:"); // remove quotes on property, because neo4j don't accept it
-            queries.push(query);
-            neo4jdb.sendQueryToNeo4j(query, (err, res, body) => {
-                if (err) {
-                    console.log(err);
-                }
-            }); // add every user as node to neo4j
-        });
-        callback2(queries);
-    }
-}
