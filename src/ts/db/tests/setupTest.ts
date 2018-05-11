@@ -1,6 +1,6 @@
 import {Neo4jDb} from "./../neo4jdb";
 
-export function setupTest(done: MochaDone, verboseOutput = false) {
+export function setupTest(done: MochaDone = () => {/* do nothing*/}, verboseOutput = false) {
     const query = `
 match (n) detach delete n;
 create (:User{id:"u1" , schedule:"0830-1800|0830-1800|0830-1800|0830-1800|0830-1700|0830-1500|-", departure:"3.0780289, 101.60655040000006",arrival:"3.1615,101.69799999999998"   ,company:"Queen's College KL" ,type:"driver",currentkms:0,name:"jackson"    ,phone:"0123456789" ,address:"84,, 60, lorong pjs 10/24a, bandar sunway, 46150 petaling jaya, selangor"}) -[:OWNS]->(:Car{model:"myvi",capacity:4,platenum:"wre 8907",color:"yellow"});

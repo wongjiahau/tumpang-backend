@@ -6,6 +6,7 @@ npm install -g typescript
 ```
 Then, run the following command
 ```
+cd src/ts
 ./transpile
 ```
 
