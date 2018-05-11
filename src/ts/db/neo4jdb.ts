@@ -15,7 +15,11 @@ export class Neo4jDb implements INeo4jDb {
                 if (error) {
                      reject(error);
                 } else {
-                     resolve(body.results[0].data);
+                    if (body.results[0]) {
+                        resolve(body.results[0].data);
+                    } else {
+                        console.log("body.results[0] is undefined.");
+                    }
                 }
             });
         });
