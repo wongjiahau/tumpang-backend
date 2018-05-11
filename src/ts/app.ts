@@ -15,15 +15,9 @@
 
 // [START app]
 import express from "express";
-import { ICluster } from "./cluster";
 import { addCrudFunction } from "./crud";
-import { DBRetrieve } from "./db/dbRetrieve";
-import { DBUpdate } from "./db/dbUpdate";
 import { Neo4jDb } from "./db/neo4jdb";
-import { getDistance } from "./getDistance";
-import { Coordinate } from "./models/coordinate";
-import { connection } from "./mysqldb";
-import { RideMaker } from "./rideMaker";
+import { runMatchMaking } from "./runMatchMaking";
 const bodyParser = require("body-parser");
 
 const app: express.Express = express();
@@ -32,27 +26,7 @@ app.use(bodyParser.json());
 addCrudFunction(app);
 
 app.get("/runMatchMaking", async (req, res) => {
-    const db = new DBRetrieve();
-    const riders = await db.fetchRiders();
-    const drivers = await db.fetchDrivers();
-    const dateOfTomorrow = new Date();
-    dateOfTomorrow.setDate((new Date()).getDate() + 1);
-    const dayOfTomorrow = dateOfTomorrow.getDay();
-    const eligibleRiders = riders.filter((r) => !isNaN(r.schedule[dayOfTomorrow].startTime));
-    const eligibleDrivers = drivers.filter((d) => !isNaN(d.schedule[dayOfTomorrow].startTime));
-    // getDistance(eligibleDrivers.map((d) => Coordinate.stringify(d.departure)))
-    const clusters = new RideMaker().findCluster(dayOfTomorrow, eligibleRiders, eligibleDrivers);
-    // const cleanseClusters: ICluster[] = [];
-    // clusters.forEach((c) => {
-    //     const distances
-    // });
-    const simplifiedClusters =
-        clusters.map((x) => ({driverId: x.driver.id, ridersIds: x.riders.map((r) => r.id)}));
-    simplifiedClusters.forEach((c) => {
-        c.ridersIds.forEach(async (riderId) => {
-            await new DBUpdate().LinkDriverToRider(c.driverId, riderId);
-        });
-    });
+    await runMatchMaking();
     res.send("Matching making completed.");
 });
 

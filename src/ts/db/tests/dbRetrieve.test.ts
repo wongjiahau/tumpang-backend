@@ -51,7 +51,7 @@ describe("DBRetrieve", () => {
                     4: { startTime: 830, endTime: 1800 },
                     5: { startTime: 830, endTime: 1700 },
                     6: { startTime: 830, endTime: 1500 },
-                    7: { startTime: NaN, endTime: NaN }
+                    7: { startTime: 830, endTime: 1500 }
                 },
                 departure: { latitude: 3.0780289, longitude: 101.60655040000006 } ,
                 arrival: { latitude: 3.1615, longitude: 101.69799999999998 },
@@ -65,4 +65,5 @@ describe("DBRetrieve", () => {
             });
         });
     });
+
 });
