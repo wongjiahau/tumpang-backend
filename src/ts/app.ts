@@ -16,16 +16,23 @@
 // [START app]
 import express from "express";
 import { ICluster } from "./cluster";
+import { addCrudFunction } from "./crud";
+import { DBRetrieve } from "./db/dbRetrieve";
+import { DBUpdate } from "./db/dbUpdate";
+import { Neo4jDb } from "./db/neo4jdb";
 import { getDistance } from "./getDistance";
 import { Coordinate } from "./models/coordinate";
 import { connection } from "./mysqldb";
-import { Neo4jDb } from "./neo4jdb";
 import { RideMaker } from "./rideMaker";
+const bodyParser = require("body-parser");
 
-const app = express();
+const app: express.Express = express();
+
+app.use(bodyParser.json());
+addCrudFunction(app);
 
 app.get("/runMatchMaking", async (req, res) => {
-    const db = new Neo4jDb();
+    const db = new DBRetrieve();
     const riders = await db.fetchRiders();
     const drivers = await db.fetchDrivers();
     const dateOfTomorrow = new Date();
@@ -39,10 +46,11 @@ app.get("/runMatchMaking", async (req, res) => {
     // clusters.forEach((c) => {
     //     const distances
     // });
-    const simplifiedClusters = clusters.map((x) => ({driverId: x.driver.id, ridersIds: x.riders.map((r) => r.id)}));
+    const simplifiedClusters =
+        clusters.map((x) => ({driverId: x.driver.id, ridersIds: x.riders.map((r) => r.id)}));
     simplifiedClusters.forEach((c) => {
         c.ridersIds.forEach(async (riderId) => {
-            await db.LinkDriverToRider(c.driverId, riderId);
+            await new DBUpdate().LinkDriverToRider(c.driverId, riderId);
         });
     });
     res.send("Matching making completed.");
@@ -50,7 +58,7 @@ app.get("/runMatchMaking", async (req, res) => {
 
 app.get("/queryNeo4j", async (req, res) => {
     const db = new Neo4jDb();
-    const body = await db.sendQueryToNeo4j("match (u:User)-[]->(car) return u,car;");
+    const body = await db.sendQuery("match (u:User)-[]->(car) return u,car;");
     res.status(200).send(body).end();
 });
 
@@ -60,12 +68,12 @@ app.get("/", (req, res) => {
 
 app.get("/acceptRequest", (req, res) => {
     const userId = req.param("user_id");
+    console.log(userId);
 });
 
 // Start the server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, "127.0.0.1", () => {
     console.log(`App listening on port ${PORT}`);
-    console.log("Run ./kill script to kill this daemon.");
 });
 // [END app]

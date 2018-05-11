@@ -74,6 +74,6 @@ https://stackoverflow.com/questions/8541182/apache-redirect-to-another-port
 
 # How to run the app?
 ```
-cd app/
-nodejs app.js
+cd src
+node js/app.js
 ```

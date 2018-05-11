@@ -13,7 +13,6 @@ create (:User{id:"u7" , schedule:"0850-1730|0850-1730|0850-1730|0850-1730|0850-1
 create (:User{id:"u8" , schedule:"0835-1730|0835-1730|0835-1730|0835-1730|0835-1730|-|-"        , departure:"3.0741329,101.62934169999994" ,arrival:"3.1326988,101.67225259999998",company:"WTF Restaurant"     ,type:"rider" ,currentkms:0,name:"james ooi"  ,phone:"015782111" ,address:"no. 77, jalan pjs 10/34, taman sri subang, pjs 10, 46000 petaling jaya, selangor"});
 create (:User{id:"u9" , schedule:"0900-1800|0900-1800|0900-1800|0900-1800|0900-1800|-|-"        , departure:"3.0766802,101.60453519999999" ,arrival:"3.1326988,101.67225259999998",company:"WTF Restaurant"     ,type:"rider" ,currentkms:0,name:"david james",phone:"016792111" ,address:"jalan pjs 10/11a, pjs 10, 46150 petaling jaya, selangor"});
 create (:User{id:"u10", schedule:"0850-1800|0850-1800|0850-1800|0850-1800|0850-1800|-|-"        , departure:"3.0766647,101.60438899999997" ,arrival:"3.1326988,101.67225259999998",company:"WTF Restaurant"     ,type:"rider" ,currentkms:0,name:"siva rao"   ,phone:"019792111" ,address:"j446, jalan pjs 10/11a, pjs 10, 46150 petaling jaya, selangor"});
-create (:User{id:"u11", schedule:"0850-1800|0by 850-1800|0850-1800|0850-1800|0850-1800|-|-"        , departure:"3.162063, 101.552723"         ,arrival:"3.1326988,101.67225259999998",company:"WTF Restaurant"     ,type:"rider" ,currentkms:0,name:"olivia k"   ,phone:"018732342" ,address:"Persiaran Cakerawala U 4, 40150 Shah Alam, Selangor"});
 `;
     const db = new Neo4jDb();
     const queries = query.split("\n");

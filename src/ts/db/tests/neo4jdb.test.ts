@@ -14,7 +14,7 @@ describe("neo4jdb", () => {
         it("case 1", async () => {
             const db = new Neo4jDb();
             const result = await db.sendQuery("match (n) return n;");
-            expect(result).to.have.lengthOf(13); // 11 Users + 2 Cars
+            expect(result).to.have.lengthOf(12); // 10 Users + 2 Cars
         });
     });
 });
