@@ -47,7 +47,12 @@ app.get("/acceptRequest", (req, res) => {
 
 // Start the server
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, "127.0.0.1", () => {
+/**
+ * Note: If you use 127.0.0.1, others can't connect to it remotely
+ * You need to use 0.0.0.0, which will bind to your machine ip address
+ * Refer more on: https://stackoverflow.com/questions/33953447/express-app-server-listen-all-intefaces-instead-of-localhost-only#answer-33957043
+ */
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`App listening on port ${PORT}`);
 });
 // [END app]
