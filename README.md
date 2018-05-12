@@ -73,9 +73,14 @@ gcloud auth login
 https://stackoverflow.com/questions/8541182/apache-redirect-to-another-port
 
 # How to run the app?
+Before that you need to install `nodemon`.
+```
+npm -i g nodemon
+```
+Then, start the server in watch mode.
 ```
 cd src
-node js/app.js
+nodemon js/app.js
 ```
 
 ## How to trigger the server to run match making?
